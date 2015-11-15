@@ -9,7 +9,7 @@ class DBInfo {
   const DB_USER = '';
   const DB_PASSWORD = '';
 
-  public function getConnString() {
+  public static function getConnString() {
     return sprintf("host=%s port=%s dbname=%s user=%s password=%s",
     self::DB_HOST,
     self::DB_PORT,
