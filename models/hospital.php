@@ -1,8 +1,6 @@
 <?php
 namespace models;
 
-// require '../database/database.php';
-
 use database\Database;
 
 class Hospital {
