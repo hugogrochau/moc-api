@@ -6,4 +6,5 @@
 .DS_STORE
 composer.lock
 composer.phar
-database/dbinfo.php
+app/Database/DbInfo.php
+*.swp
