@@ -9,6 +9,7 @@ use MocApi\Models\User;
 $app = new \Slim\Slim(array(
     'templates.path' => '../templates',
 ));
+$app->response->headers->set('Content-Type', 'application/json');
 
 // Create monolog logger and store logger in container as singleton
 // (Singleton resources retrieve the same log resource definition each time)
