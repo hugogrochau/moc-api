@@ -79,9 +79,12 @@ $app->get('/api/hospital/:id', function ($id) use ($app) {
     echo json_encode(Hospital::getHospitalById($id));
 });
 
-$app->get('/api/hospital/:id/surgery/', $notLoggedIn($app), function($id) use ($app) {
-
-    echo "foo";
+//You must be logged in to use this feature
+//$notLoggedIn($app);
+$app->get('/api/hospital/:id/surgery/', function($id) use ($app) {
+    $app->log->info("moc '/api/hospital/$id/surgery/' route");
+    $surgeries = Array("surgeries" => Hospital::getSurgeries($id));
+    echo json_encode($surgeries);
 });
 
 // Run app
