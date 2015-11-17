@@ -2,9 +2,8 @@
 
 // remember to dump-autoload after adding new modules
 require '../vendor/autoload.php';
-use models\Hospital;
-use models\User;
-
+use MocApi\Models\Hospital;
+use MocApi\Models\User;
 
 // Prepare app
 $app = new \Slim\Slim(array(

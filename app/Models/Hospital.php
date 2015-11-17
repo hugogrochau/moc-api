@@ -1,7 +1,7 @@
 <?php
-namespace models;
+namespace MocApi\Models;
 
-use database\Database;
+use MocApi\Database\Database;
 
 class Hospital {
 

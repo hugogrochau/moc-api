@@ -1,7 +1,7 @@
 <?php
-namespace database;
+namespace MocApi\Database;
 
-require 'dbinfo.php';
+use MocApi\Database\DbInfo;
 
 class Database {
 
