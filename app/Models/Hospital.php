@@ -25,7 +25,7 @@ class Hospital {
       while ($row = pg_fetch_row($result))
           $surgeries[] = array("surgeonName"      => $row[0],
                                "surgeonSpecialty" => $row[1],
-                               "surgeonCrm"       => $row[2]);
+                               "surgeonCRM"       => $row[2]);
 
       return $surgeries;
   }
