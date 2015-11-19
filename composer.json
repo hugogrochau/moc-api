@@ -1,7 +1,7 @@
 {
     "name": "hugogrochau/moc-api",
     "description": "API para os aplicativos de MOC (Marcação Online de Cirurgias)",
-    "keywords": ["moc","api","Marcação", "Online", "de", "Cirurgias"],
+    "keywords": ["moc", "api", "Marcação", "Online", "de", "Cirurgias"],
     "homepage": "https://github.com/hugogrochau/moc-api",
     "license": "",
     "authors": [
@@ -16,7 +16,22 @@
     },
     "autoload": {
         "psr-4": {
-          "MocApi\\": "./app/"
+            "MocApi\\": "./app/"
         }
+    },
+    "scripts": {
+        "create": [
+            "composer dump-autoload",
+            "docker run --name \"moc-api\" -p 8080:80 -v \"$(pwd):/usr/share/nginx/html/\" -d richarvey/nginx-php-fpm"
+        ],
+        "stop": [
+            "docker stop $(docker ps -a -q --filter=\"name=moc-api\")"
+        ],
+        "run": [
+            "docker start $(docker ps -a -q --filter=\"name=moc-api\")"
+        ],
+        "remove-containers": [
+            "docker rm $(docker ps -a -q --filter=\"name=moc-api\")"
+        ]
     }
 }
