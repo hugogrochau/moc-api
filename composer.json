@@ -20,6 +20,9 @@
         }
     },
     "scripts": {
+        "pre-install-cmd": [
+            "install -b -m 666 /dev/null logs/app.log"
+        ],
         "create": [
             "composer dump-autoload",
             "docker run --name \"moc-api\" -p 8080:80 -v \"$(pwd):/usr/share/nginx/html/\" -d richarvey/nginx-php-fpm"
@@ -28,6 +31,7 @@
             "docker stop $(docker ps -a -q --filter=\"name=moc-api\")"
         ],
         "run": [
+            "composer dump-autoload",
             "docker start $(docker ps -a -q --filter=\"name=moc-api\")"
         ],
         "remove-containers": [
