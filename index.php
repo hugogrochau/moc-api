@@ -1,7 +1,7 @@
 <?php
 
 // remember to dump-autoload after adding new modules
-require '../vendor/autoload.php';
+require './vendor/autoload.php';
 use MocApi\Models\Hospital;
 use MocApi\Models\User;
 
@@ -15,7 +15,7 @@ $app->response->headers->set('Content-Type', 'application/json');
 // (Singleton resources retrieve the same log resource definition each time)
 $app->container->singleton('log', function () {
     $log = new \Monolog\Logger('moc');
-    $log->pushHandler(new \Monolog\Handler\StreamHandler('../logs/app.log', \Monolog\Logger::DEBUG));
+    $log->pushHandler(new \Monolog\Handler\StreamHandler('./logs/app.log', \Monolog\Logger::DEBUG));
     return $log;
 });
 
