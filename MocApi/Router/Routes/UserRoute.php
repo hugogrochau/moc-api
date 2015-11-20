@@ -1,11 +1,13 @@
 <?php
-namespace MocApi\Router;
+namespace MocApi\Router\Routes;
 
-class UserRoute {
+use MocApi\Router\Route;
 
-    public static function route($app, $path) {
+class UserRoute implements Route {
 
-        $app->group($path, function () use ($app) {
+    public static function route($app) {
+
+        $app->group("/api/user", function () use ($app) {
 
             // Check if user isn't logged in
             $notLoggedIn = function ($app) {
@@ -57,4 +59,3 @@ class UserRoute {
 
     }
 }
-?>

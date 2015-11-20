@@ -20,5 +20,3 @@ abstract class WebApiTestCase extends \PHPUnit_Framework_TestCase {
     }
 
 }
-
-?>

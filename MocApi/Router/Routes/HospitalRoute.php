@@ -1,14 +1,15 @@
 <?php
-namespace MocApi\Router;
+namespace MocApi\Router\Routes;
 
+use MocApi\Router\Route;
 use MocApi\Models\HospitalQuery;
 use MocApi\Models\SurgeryformQuery;
 
-class HospitalRoute {
+class HospitalRoute implements Route {
 
-    public static function route($app, $path) {
+    public static function route($app) {
 
-        $app->group($path, function () use ($app) {
+        $app->group("/api/hospital", function () use ($app) {
 
             $app->get('/:id', function ($id) use ($app) {
                 $app->log->info("moc '/api/hospital/$id' route");
@@ -43,7 +44,7 @@ class HospitalRoute {
                     ->useSurgeonSurgeryformQuery()
                     ->joinWithSurgeon()
                     ->useSurgeonQuery()
-                    ->select(array("Surgeon.Name", "Surgeon.Crm", "Surgeon.Specialty"))
+                    ->select(array('Surgeon.Name', 'Surgeon.Crm', 'Surgeon.Specialty'))
                     ->find();
                 echo $surgeryForms->toJSON();
             });
