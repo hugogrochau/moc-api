@@ -9,9 +9,9 @@ API para os aplicativos de MOC (Marcação Online de Cirurgias)
 ## Instalação
 1. Clone o repo
 2. Instale o [composer](https://getcomposer.org/download/)
-3. Rode `composer install`
-4. Instale o [docker](http://docs.docker.com/mac/started/)
-5. Configure o [app/Database/DbInfo.php.default](app/Database/DbInfo.php.default) com os dados do banco e copie ele para `app/Database/DbInfo.php`
+3. Configure o [conf/propel.json.default](conf/propel.json.default) com os dados do banco e tire o .default da extensão
+4. Rode `composer install`
+5. Instale o [docker](http://docs.docker.com/mac/started/)
 
 ## Execução
 1. Rode `composer create` para criar um novo docker container
