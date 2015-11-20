@@ -10,7 +10,7 @@ use MocApi\Middleware\LoggedInMiddleware;
  * @package MocApi\Router\Routes
  */
 
-$app->group("/api/user", function () {
+$this->group("/user", function () {
 
     $this->post("/register", function ($req, $res, $id) {
         $postData = $res->getParsedBody();

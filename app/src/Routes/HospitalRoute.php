@@ -10,11 +10,12 @@ use MocApi\Models\SurgeryformQuery;
  * @package MocApi\Routes
  */
 
-$app->group("/api/hospital", function () {
+$this->group("/hospital", function () {
 
     $this->get('/{id}', function ($req, $res, $id) {
         $this->log->info("moc '/api/hospital/$id' route");
         $hospital = HospitalQuery::create()->findPk($id);
+
         if ($hospital) {
             return $res->write($hospital->toJSON());
         } else {

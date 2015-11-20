@@ -37,6 +37,9 @@
             "composer dump-autoload",
             "docker start $(docker ps -a -q --filter=\"name=moc-api\")"
         ],
+        "start": [
+            "composer run"
+        ],
         "remove-containers": [
             "docker rm $(docker ps -a -q --filter=\"name=moc-api\")"
         ],
