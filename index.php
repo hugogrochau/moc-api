@@ -2,10 +2,18 @@
 
 // remember to dump-autoload after adding new modules
 require './vendor/autoload.php';
-use MocApi\Models\Hospital;
+require './conf/config.php';
+
+use MocApi\Models\HospitalQuery;
+use MocApi\Models\SurgeryformQuery;
+
 use MocApi\Models\User;
 
-// Prepare app
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+// Prepare MocApi
 $app = new \Slim\Slim(array(
     'templates.path' => '../templates',
 ));
@@ -15,7 +23,7 @@ $app->response->headers->set('Content-Type', 'application/json');
 // (Singleton resources retrieve the same log resource definition each time)
 $app->container->singleton('log', function () {
     $log = new \Monolog\Logger('moc');
-    $log->pushHandler(new \Monolog\Handler\StreamHandler('./logs/app.log', \Monolog\Logger::DEBUG));
+    $log->pushHandler(new \Monolog\Handler\StreamHandler('./logs/MocApi.log', \Monolog\Logger::DEBUG));
     return $log;
 });
 
@@ -77,16 +85,40 @@ $app->get("/api/user/logout", $notLoggedIn($app), function () use ($app) {
 
 $app->get('/api/hospital/:id', function ($id) use ($app) {
     $app->log->info("moc '/api/hospital/$id' route");
-    echo json_encode(Hospital::getHospitalById($id));
+    $hospital = HospitalQuery::create()->findPk($id);
+    if ($hospital) {
+        echo $hospital->toJSON();
+    } else {
+        $app->halt(404, 'Hospital not found');
+    }
 });
 
+/*
+   SELECT s.name, s.specialty, s.crm FROM hospital AS h
+   INNER JOIN hospital_surgeryform AS hsf
+   ON h.id = hsf.idHospital
+   INNER JOIN surgeryform AS sf
+   ON hsf.idsurgeryform = sf.id
+   INNER JOIN surgeon_surgeryform AS ssf
+   ON sf.id = ssf.idsurgeryform
+   INNER JOIN surgeon AS s
+   ON ssf.idsurgeon = s.email
+   WHERE h.id = $1'; */
 //You must be logged in to use this feature
-//$notLoggedIn($app);
+//$notLoggedIn($MocApi);
 $app->get('/api/hospital/:id/surgery/', function($id) use ($app) {
     $app->log->info("moc '/api/hospital/$id/surgery/' route");
-    $surgeries = Array("surgeries" => Hospital::getSurgeries($id));
-    echo json_encode($surgeries);
+    $hospital = HospitalQuery::create()->findPk($id);
+    $surgeryForms = SurgeryformQuery::create()
+                    ->filterByHospital($hospital)
+                    ->joinWithSurgeonSurgeryform()
+                    ->useSurgeonSurgeryformQuery()
+                    ->joinWithSurgeon()
+                    ->useSurgeonQuery()
+                    ->select(array("Surgeon.Name", "Surgeon.Crm", "Surgeon.Specialty"))
+                    ->find();
+    echo $surgeryForms->toJSON();
 });
 
-// Run app
+// Run MocApi
 $app->run();

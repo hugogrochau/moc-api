@@ -15,7 +15,7 @@
     },
     "autoload": {
         "psr-4": {
-            "MocApi\\": "./app/"
+            "": ""
         }
     },
     "scripts": {
@@ -39,6 +39,16 @@
         "test": [
             "composer run",
             "php vendor/bin/phpunit --debug --colors=always"
+        ],
+        "build-models": [
+            "php vendor/bin/propel model:build --schema-dir=conf --output-dir=./"
+        ],
+        "build-schema": [
+            "php vendor/bin/propel reverse --config-dir=conf --output-dir=conf"
+        ],
+        "build": [
+            "composer build-models",
+            "php vendor/bin/propel config:convert --config-dir=conf --output-dir=conf"
         ]
     },
     "require-dev": {

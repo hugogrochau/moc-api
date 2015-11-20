@@ -2,10 +2,9 @@
 /vendor/
 /logs/*
 !/logs/.gitkeep
-/templates/cache/*
-!/templates/cache/README.md
 .DS_STORE
 composer.lock
 composer.phar
-app/Database/DbInfo.php
+/conf/propel.json
+/conf/config.php
 *.swp

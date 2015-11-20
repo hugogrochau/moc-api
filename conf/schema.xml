@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8"?>
+<database name="default" defaultIdMethod="native" defaultPhpNamingMethod="underscore" namespace="MocApi\Models">
+  <table name="address" schema="moc" idMethod="native" phpName="Address">
+    <column name="id" phpName="Id" type="BIGINT" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="name" phpName="Name" type="VARCHAR" size="100"/>
+    <column name="cep" phpName="Cep" type="VARCHAR" size="9"/>
+    <column name="street" phpName="Street" type="VARCHAR" size="100"/>
+    <column name="number" phpName="Number" type="INTEGER"/>
+    <column name="complement" phpName="Complement" type="VARCHAR" size="50"/>
+    <column name="neighborhood" phpName="Neighborhood" type="VARCHAR" size="100"/>
+    <column name="city" phpName="City" type="VARCHAR" size="100"/>
+    <column name="state" phpName="State" type="VARCHAR" size="50"/>
+    <column name="timestamp" phpName="Timestamp" type="VARCHAR"/>
+    <column name="buildingname" phpName="Buildingname" type="VARCHAR" size="100"/>
+    <column name="phone" phpName="Phone" type="VARCHAR" size="13"/>
+    <column name="type" phpName="Type" type="VARCHAR" size="4"/>
+  </table>
+  <table name="address_hospital" schema="moc" idMethod="native" phpName="AddressHospital">
+    <column name="idserial" phpName="Idserial" type="BIGINT" autoIncrement="true" required="true"/>
+    <column name="idhospital" phpName="Idhospital" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="idaddress" phpName="Idaddress" type="INTEGER" primaryKey="true" required="true"/>
+    <foreign-key foreignTable="address" name="address_hospital_idaddress_fkey">
+      <reference local="idaddress" foreign="id"/>
+    </foreign-key>
+    <foreign-key foreignTable="hospital" name="address_hospital_idhospital_fkey">
+      <reference local="idhospital" foreign="id"/>
+    </foreign-key>
+  </table>
+  <table name="address_patient" schema="moc" idMethod="native" phpName="AddressPatient">
+    <column name="idserial" phpName="Idserial" type="BIGINT" autoIncrement="true" required="true"/>
+    <column name="idpatient" phpName="Idpatient" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="idaddress" phpName="Idaddress" type="INTEGER" primaryKey="true" required="true"/>
+    <foreign-key foreignTable="address" name="address_patient_idaddress_fkey">
+      <reference local="idaddress" foreign="id"/>
+    </foreign-key>
+    <foreign-key foreignTable="patient" name="address_patient_idpatient_fkey">
+      <reference local="idpatient" foreign="id"/>
+    </foreign-key>
+  </table>
+  <table name="address_surgeon_home" schema="moc" idMethod="native" phpName="AddressSurgeonHome">
+    <column name="idserial" phpName="Idserial" type="BIGINT" autoIncrement="true" required="true"/>
+    <column name="idsurgeon" phpName="Idsurgeon" type="VARCHAR" size="100" primaryKey="true" required="true"/>
+    <column name="idaddress" phpName="Idaddress" type="INTEGER" primaryKey="true" required="true"/>
+    <foreign-key foreignTable="address" name="address_surgeon_idaddress_fkey">
+      <reference local="idaddress" foreign="id"/>
+    </foreign-key>
+    <foreign-key foreignTable="surgeon" name="address_surgeon_idsurgeon_fkey">
+      <reference local="idsurgeon" foreign="email"/>
+    </foreign-key>
+  </table>
+  <table name="address_surgeon_work" schema="moc" idMethod="native" phpName="AddressSurgeonWork">
+    <column name="idserial" phpName="Idserial" type="BIGINT" autoIncrement="true" required="true"/>
+    <column name="idsurgeon" phpName="Idsurgeon" type="VARCHAR" size="100" primaryKey="true" required="true"/>
+    <column name="idaddress" phpName="Idaddress" type="INTEGER" primaryKey="true" required="true"/>
+    <foreign-key foreignTable="address" name="address_surgeon_work_idaddress_fkey">
+      <reference local="idaddress" foreign="id"/>
+    </foreign-key>
+    <foreign-key foreignTable="surgeon" name="address_surgeon_work_idsurgeon_fkey">
+      <reference local="idsurgeon" foreign="email"/>
+    </foreign-key>
+  </table>
+  <table name="equipmentprocedure" schema="moc" idMethod="native" phpName="Equipmentprocedure">
+    <column name="id" phpName="Id" type="BIGINT" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="descricao" phpName="Descricao" type="VARCHAR" size="150"/>
+    <column name="quant" phpName="Quant" type="INTEGER"/>
+    <column name="timestamp" phpName="Timestamp" type="VARCHAR"/>
+  </table>
+  <table name="hospital" schema="moc" idMethod="native" phpName="Hospital">
+    <column name="id" phpName="Id" type="BIGINT" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="name" phpName="Name" type="VARCHAR" size="100"/>
+    <column name="phone" phpName="Phone" type="VARCHAR" size="13"/>
+    <column name="timestamp" phpName="Timestamp" type="VARCHAR"/>
+  </table>
+  <table name="hospital_surgeryform" schema="moc" idMethod="native" phpName="HospitalSurgeryform">
+    <column name="idserial" phpName="Idserial" type="BIGINT" autoIncrement="true" required="true"/>
+    <column name="idhospital" phpName="Idhospital" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="idsurgeryform" phpName="Idsurgeryform" type="INTEGER" primaryKey="true" required="true"/>
+    <foreign-key foreignTable="hospital" name="hospital_surgeryform_idhospital_fkey">
+      <reference local="idhospital" foreign="id"/>
+    </foreign-key>
+    <foreign-key foreignTable="surgeryform" name="hospital_surgeryform_idsurgeryform_fkey">
+      <reference local="idsurgeryform" foreign="id"/>
+    </foreign-key>
+  </table>
+  <table name="hospitalsecretary" schema="moc" idMethod="native" phpName="Hospitalsecretary">
+    <column name="username" phpName="Username" type="VARCHAR" size="100" primaryKey="true" required="true"/>
+    <column name="password" phpName="Password" type="VARCHAR" size="64"/>
+    <column name="name" phpName="Name" type="VARCHAR" size="100"/>
+    <column name="timestamp" phpName="Timestamp" type="VARCHAR"/>
+    <column name="idserial" phpName="Idserial" type="BIGINT" autoIncrement="true" required="true"/>
+  </table>
+  <table name="notification" schema="moc" idMethod="native" phpName="Notification">
+    <column name="id" phpName="Id" type="BIGINT" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="notification" phpName="Notification" type="VARCHAR" size="150"/>
+    <column name="timestamp" phpName="Timestamp" type="VARCHAR"/>
+  </table>
+  <table name="patient" schema="moc" idMethod="native" phpName="Patient">
+    <column name="id" phpName="Id" type="BIGINT" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="cpf" phpName="Cpf" type="VARCHAR" size="11"/>
+    <column name="timestamp" phpName="Timestamp" type="VARCHAR"/>
+    <column name="name" phpName="Name" type="VARCHAR" size="100"/>
+    <column name="birthdate" phpName="Birthdate" type="VARCHAR" size="10"/>
+    <column name="gender" phpName="Gender" type="VARCHAR" size="1"/>
+    <column name="age" phpName="Age" type="INTEGER"/>
+    <column name="weight" phpName="Weight" type="DOUBLE" size="53"/>
+    <column name="healthinsurance" phpName="Healthinsurance" type="VARCHAR" size="50"/>
+    <column name="healthplan" phpName="Healthplan" type="VARCHAR" size="50"/>
+    <column name="insurancecardnumber" phpName="Insurancecardnumber" type="VARCHAR" size="25"/>
+    <column name="insurancecardvalidity" phpName="Insurancecardvalidity" type="VARCHAR" size="5"/>
+    <column name="phone" phpName="Phone" type="VARCHAR" size="13"/>
+    <column name="cell" phpName="Cell" type="VARCHAR" size="13"/>
+    <column name="obs" phpName="Obs" type="VARCHAR" size="300"/>
+  </table>
+  <table name="procedurematerials" schema="moc" idMethod="native" phpName="Procedurematerials">
+    <column name="id" phpName="Id" type="BIGINT" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="descricao" phpName="Descricao" type="VARCHAR" size="150"/>
+    <column name="fornecedor1" phpName="Fornecedor1" type="VARCHAR" size="150"/>
+    <column name="fornecedor2" phpName="Fornecedor2" type="VARCHAR" size="150"/>
+    <column name="fornecedor3" phpName="Fornecedor3" type="VARCHAR" size="150"/>
+    <column name="quant" phpName="Quant" type="INTEGER"/>
+    <column name="timestamp" phpName="Timestamp" type="VARCHAR"/>
+  </table>
+  <table name="secretary" schema="moc" idMethod="native" phpName="Secretary">
+    <column name="email" phpName="Email" type="VARCHAR" size="100" primaryKey="true" required="true"/>
+    <column name="password" phpName="Password" type="VARCHAR" size="30"/>
+    <column name="name" phpName="Name" type="VARCHAR" size="100"/>
+    <column name="cpf" phpName="Cpf" type="VARCHAR" size="11"/>
+    <column name="cell" phpName="Cell" type="VARCHAR" size="13"/>
+    <column name="birthdate" phpName="Birthdate" type="VARCHAR" size="10"/>
+    <column name="gender" phpName="Gender" type="VARCHAR" size="1"/>
+    <column name="timestamp" phpName="Timestamp" type="VARCHAR"/>
+    <column name="idserial" phpName="Idserial" type="BIGINT" autoIncrement="true" required="true"/>
+    <column name="appid" phpName="Appid" type="VARCHAR" size="150"/>
+  </table>
+  <table name="surgeon" schema="moc" idMethod="native" phpName="Surgeon">
+    <column name="name" phpName="Name" type="VARCHAR" size="100"/>
+    <column name="birthdate" phpName="Birthdate" type="VARCHAR" size="20"/>
+    <column name="gender" phpName="Gender" type="VARCHAR" size="1"/>
+    <column name="cpf" phpName="Cpf" type="VARCHAR" size="11"/>
+    <column name="crm" phpName="Crm" type="VARCHAR" size="500"/>
+    <column name="crmuf" phpName="Crmuf" type="VARCHAR" size="2"/>
+    <column name="cell" phpName="Cell" type="VARCHAR" size="13"/>
+    <column name="occupationarea" phpName="Occupationarea" type="VARCHAR" size="50"/>
+    <column name="specialty" phpName="Specialty" type="VARCHAR" size="150"/>
+    <column name="email" phpName="Email" type="VARCHAR" size="100" primaryKey="true" required="true"/>
+    <column name="password" phpName="Password" type="VARCHAR" size="30"/>
+    <column name="timestamp" phpName="Timestamp" type="VARCHAR"/>
+    <column name="idserial" phpName="Idserial" type="BIGINT" autoIncrement="true" required="true"/>
+    <column name="appid" phpName="Appid" type="VARCHAR" size="150"/>
+  </table>
+  <table name="surgeon_secretary" schema="moc" idMethod="native" phpName="SurgeonSecretary">
+    <column name="idserial" phpName="Idserial" type="BIGINT" autoIncrement="true" required="true"/>
+    <column name="idsurgeon" phpName="Idsurgeon" type="VARCHAR" size="100" primaryKey="true" required="true"/>
+    <column name="idsecretary" phpName="Idsecretary" type="VARCHAR" size="100" primaryKey="true" required="true"/>
+    <foreign-key foreignTable="secretary" name="surgeon_secretary_idsecretary_fkey">
+      <reference local="idsecretary" foreign="email"/>
+    </foreign-key>
+    <foreign-key foreignTable="surgeon" name="surgeon_secretary_idsurgeon_fkey">
+      <reference local="idsurgeon" foreign="email"/>
+    </foreign-key>
+  </table>
+  <table name="surgeon_surgeryform" schema="moc" idMethod="native" phpName="SurgeonSurgeryform">
+    <column name="idserial" phpName="Idserial" type="BIGINT" autoIncrement="true" required="true"/>
+    <column name="idsurgeon" phpName="Idsurgeon" type="VARCHAR" size="100" primaryKey="true" required="true"/>
+    <column name="idsurgeryform" phpName="Idsurgeryform" type="INTEGER" primaryKey="true" required="true"/>
+    <foreign-key foreignTable="surgeon" name="surgeon_surgeryform_idsurgeon_fkey">
+      <reference local="idsurgeon" foreign="email"/>
+    </foreign-key>
+    <foreign-key foreignTable="surgeryform" name="surgeon_surgeryform_idsurgeryform_fkey">
+      <reference local="idsurgeryform" foreign="id"/>
+    </foreign-key>
+  </table>
+  <table name="surgery" schema="moc" idMethod="native" phpName="Surgery">
+    <column name="id" phpName="Id" type="BIGINT" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="obs" phpName="Obs" type="VARCHAR" size="300"/>
+    <column name="hospitalar" phpName="Hospitalar" type="INTEGER"/>
+    <column name="dayclinic" phpName="Dayclinic" type="INTEGER"/>
+    <column name="ambulatorio" phpName="Ambulatorio" type="INTEGER"/>
+    <column name="vagasemiintensiva" phpName="Vagasemiintensiva" type="INTEGER"/>
+    <column name="vagauti" phpName="Vagauti" type="INTEGER"/>
+    <column name="vagaunicoronariana" phpName="Vagaunicoronariana" type="INTEGER"/>
+    <column name="vagautineonatal" phpName="Vagautineonatal" type="INTEGER"/>
+    <column name="sanconchemacias" phpName="Sanconchemacias" type="INTEGER"/>
+    <column name="sanconcplaquetas" phpName="Sanconcplaquetas" type="INTEGER"/>
+    <column name="sancrioprecipitado" phpName="Sancrioprecipitado" type="INTEGER"/>
+    <column name="sanplasma" phpName="Sanplasma" type="INTEGER"/>
+    <column name="date1" phpName="Date1" type="VARCHAR" size="10"/>
+    <column name="time1" phpName="Time1" type="VARCHAR" size="8"/>
+    <column name="date2" phpName="Date2" type="VARCHAR" size="10"/>
+    <column name="time2" phpName="Time2" type="VARCHAR" size="8"/>
+    <column name="date3" phpName="Date3" type="VARCHAR" size="10"/>
+    <column name="time3" phpName="Time3" type="VARCHAR" size="8"/>
+    <column name="timestamp" phpName="Timestamp" type="VARCHAR"/>
+  </table>
+  <table name="surgery_equipmentprocedure" schema="moc" idMethod="native" phpName="SurgeryEquipmentprocedure">
+    <column name="id" phpName="Id" type="BIGINT" autoIncrement="true" required="true"/>
+    <column name="idsurgery" phpName="Idsurgery" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="idequipmentprocedure" phpName="Idequipmentprocedure" type="INTEGER" primaryKey="true" required="true"/>
+    <foreign-key foreignTable="equipmentprocedure" name="surgery_equipmentprocedure_idequipmentprocedure_fkey">
+      <reference local="idequipmentprocedure" foreign="id"/>
+    </foreign-key>
+    <foreign-key foreignTable="surgery" name="surgery_equipmentprocedure_idsurgery_fkey">
+      <reference local="idsurgery" foreign="id"/>
+    </foreign-key>
+  </table>
+  <table name="surgery_procedurematerials" schema="moc" idMethod="native" phpName="SurgeryProcedurematerials">
+    <column name="id" phpName="Id" type="BIGINT" autoIncrement="true" required="true"/>
+    <column name="idsurgery" phpName="Idsurgery" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="idprocedurematerials" phpName="Idprocedurematerials" type="INTEGER" primaryKey="true" required="true"/>
+    <foreign-key foreignTable="procedurematerials" name="surgery_procedurematerials_idprocedurematerials_fkey">
+      <reference local="idprocedurematerials" foreign="id"/>
+    </foreign-key>
+    <foreign-key foreignTable="surgery" name="surgery_procedurematerials_idsurgery_fkey">
+      <reference local="idsurgery" foreign="id"/>
+    </foreign-key>
+  </table>
+  <table name="surgery_surgeryform" schema="moc" idMethod="native" phpName="SurgerySurgeryform">
+    <column name="id" phpName="Id" type="BIGINT" autoIncrement="true" required="true"/>
+    <column name="idsurgery" phpName="Idsurgery" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="idsurgeryform" phpName="Idsurgeryform" type="INTEGER" primaryKey="true" required="true"/>
+    <foreign-key foreignTable="surgery" name="surgery_surgeryform_idsurgery_fkey">
+      <reference local="idsurgery" foreign="id"/>
+    </foreign-key>
+    <foreign-key foreignTable="surgeryform" name="surgery_surgeryform_idsurgeryform_fkey">
+      <reference local="idsurgeryform" foreign="id"/>
+    </foreign-key>
+  </table>
+  <table name="surgery_tuss" schema="moc" idMethod="native" phpName="SurgeryTuss">
+    <column name="id" phpName="Id" type="BIGINT" autoIncrement="true" required="true"/>
+    <column name="idsurgery" phpName="Idsurgery" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="idtuss" phpName="Idtuss" type="INTEGER" primaryKey="true" required="true"/>
+    <foreign-key foreignTable="surgery" name="surgery_tuss_idsurgery_fkey">
+      <reference local="idsurgery" foreign="id"/>
+    </foreign-key>
+    <foreign-key foreignTable="tuss" name="surgery_tuss_idtuss_fkey">
+      <reference local="idtuss" foreign="id"/>
+    </foreign-key>
+  </table>
+  <table name="surgeryform" schema="moc" idMethod="native" phpName="Surgeryform">
+    <column name="id" phpName="Id" type="BIGINT" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="status" phpName="Status" type="VARCHAR" size="100"/>
+    <column name="creator" phpName="Creator" type="VARCHAR" size="100" required="true"/>
+    <column name="timestamp" phpName="Timestamp" type="VARCHAR"/>
+    <foreign-key foreignTable="surgeon" name="surgeryform_creator_fkey">
+      <reference local="creator" foreign="email"/>
+    </foreign-key>
+  </table>
+  <table name="surgeryform_notification" schema="moc" idMethod="native" phpName="SurgeryformNotification">
+    <column name="id" phpName="Id" type="BIGINT" autoIncrement="true" required="true"/>
+    <column name="idnotification" phpName="Idnotification" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="idsurgeryform" phpName="Idsurgeryform" type="INTEGER" primaryKey="true" required="true"/>
+    <foreign-key foreignTable="notification" name="surgeryform_notification_idnotification_fkey">
+      <reference local="idnotification" foreign="id"/>
+    </foreign-key>
+    <foreign-key foreignTable="surgeryform" name="surgeryform_notification_idsurgeryform_fkey">
+      <reference local="idsurgeryform" foreign="id"/>
+    </foreign-key>
+  </table>
+  <table name="surgeryform_patient" schema="moc" idMethod="native" phpName="SurgeryformPatient">
+    <column name="id" phpName="Id" type="BIGINT" autoIncrement="true" required="true"/>
+    <column name="idpatient" phpName="Idpatient" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="idsurgeryform" phpName="Idsurgeryform" type="INTEGER" primaryKey="true" required="true"/>
+    <foreign-key foreignTable="patient" name="surgeryform_patient_idpatient_fkey">
+      <reference local="idpatient" foreign="id"/>
+    </foreign-key>
+    <foreign-key foreignTable="surgeryform" name="surgeryform_patient_idsurgeryform_fkey">
+      <reference local="idsurgeryform" foreign="id"/>
+    </foreign-key>
+  </table>
+  <table name="tuss" schema="moc" idMethod="native" phpName="Tuss">
+    <column name="id" phpName="Id" type="BIGINT" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="codigo" phpName="Codigo" type="INTEGER" required="true"/>
+    <column name="descricao" phpName="Descricao" type="VARCHAR" size="150"/>
+    <column name="timestamp" phpName="Timestamp" type="VARCHAR"/>
+  </table>
+</database>

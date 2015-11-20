@@ -1,0 +1,29 @@
+{
+    "propel": {
+        "database": {
+            "connections": {
+                "default": {
+                    "adapter": "pgsql",
+                    "classname": "Propel\\Runtime\\Connection\\ConnectionWrapper",
+                    "dsn": "pgsql:host=localhost;dbname=name",
+                    "user": "root",
+                    "password": "hunter2",
+                    "attributes": []
+                }
+            }
+        },
+        "paths": {
+            "schemaDir": "conf",
+            "phpConfDir": "conf"
+        },
+        "runtime": {
+            "defaultConnection": "default",
+            "connections": ["default"]
+        },
+        "generator": {
+            "defaultConnection": "default",
+            "connections": ["default"]
+        }
+
+    }
+}
