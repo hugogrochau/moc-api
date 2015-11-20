@@ -2,7 +2,7 @@
 <phpunit colors="true" verbose="true" debug="true">
     <testsuites>
         <testsuite name="API Tests">
-            <directory>MocApi/Tests</directory>
+            <directory>app/src/Tests</directory>
         </testsuite>
     </testsuites>
 </phpunit>

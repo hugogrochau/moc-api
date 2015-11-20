@@ -1,32 +1,36 @@
 <?php
 
-// remember to dump-autoload after adding new modules
-require './vendor/autoload.php';
-require './conf/config.php';
-
-use MocApi\Router\Router;
-
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// Prepare MocApi
-$app = new \Slim\Slim();
+if (PHP_SAPI == 'cli-server') {
+    // To help the built-in PHP dev server, check if the request was actually for
+    // something which should probably be served as a static file
+    $file = __DIR__ . $_SERVER['REQUEST_URI'];
+    if (is_file($file)) {
+        return false;
+    }
+}
 
-$app->response->headers->set('Content-Type', 'application/json');
+require __DIR__ . '/vendor/autoload.php';
+// Propel config
+require __DIR__ . '/conf/config.php';
 
-// Create monolog logger and store logger in container as singleton
-// (Singleton resources retrieve the same log resource definition each time)
-$app->container->singleton('log', function () {
-    $log = new \Monolog\Logger('moc');
-    $log->pushHandler(new \Monolog\Handler\StreamHandler('./logs/app.log', \Monolog\Logger::DEBUG));
-    return $log;
-});
+session_start();
 
-// Session cookie middleware
-$app->add(new \Slim\Middleware\SessionCookie(array('secret' => 'myappsecret')));
+// Instantiate the app
+$settings = require __DIR__ . '/app/settings.php';
+$app = new \Slim\App($settings);
 
-new Router($app);
+// Set up dependencies
+require __DIR__ . '/app/dependencies.php';
 
-// Run MocApi
+// Register middleware
+require __DIR__ . '/app/middleware.php';
+
+// Register routes
+require __DIR__ . '/app/routes.php';
+
+// Run!
 $app->run();
