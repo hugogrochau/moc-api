@@ -36,6 +36,14 @@
         ],
         "remove-containers": [
             "docker rm $(docker ps -a -q --filter=\"name=moc-api\")"
+        ],
+        "test": [
+            "composer run",
+            "php vendor/bin/phpunit --debug --colors=always"
         ]
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^5.0",
+        "guzzle/guzzle": "^3.9"
     }
 }
