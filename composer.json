@@ -25,7 +25,7 @@
     "scripts": {
         "post-install-cmd": [
             "install -b -m 666 /dev/null log/app.log",
-            "php vendor/bin/propel config:convert --config-dir=conf --output-dir=conf",
+            "generate-config",
             "composer dump-autoload"
         ],
         "create": [
@@ -55,9 +55,12 @@
         "build-schema": [
             "php vendor/bin/propel reverse --config-dir=conf --output-dir=conf"
         ],
+        "generate-config": [
+            "php vendor/bin/propel config:convert --config-dir=conf --output-dir=conf"
+        ],
         "build": [
             "composer build-models",
-            "php vendor/bin/propel config:convert --config-dir=conf --output-dir=conf"
+            "composer generate-config"
         ]
     }
 }

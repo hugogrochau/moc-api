@@ -1,20 +1,40 @@
 # moc-api
 API para os aplicativos de MOC (Marcação Online de Cirurgias)
 
-## Dependências
+## Dependencies
 * [PHP](https://www.php.net/)
 * [Composer](https://getcomposer.org)
 * [Docker](https://www.docker.com/)
 
-## Instalação
-1. Clone o repo
-2. Instale o [composer](https://getcomposer.org/download/)
-3. Configure o [conf/propel.json.default](conf/propel.json.default) com os dados do banco e tire o .default da extensão
-4. Rode `composer install`
-5. Instale o [docker](http://docs.docker.com/mac/started/)
+## Installing
+1. Clone this repo
+2. Install composer [composer](https://getcomposer.org/download/)
+3. Configure [conf/propel.json.default](conf/propel.json.default) with the db information and remove the .default
+extension
+4. Run `composer install`
+5. Install [docker](http://docs.docker.com/mac/started/)
 
-## Execução
-1. Rode `composer create` para criar um novo docker container
-2. Rode `composer run` para rodar o servidor no container
-3. Acesse o [127.0.0.1:8080](http://127.0.0.1)
-4. Rode `composer stop` para parar a execução
+## Running
+1. Run `composer create` to create a docker container
+2. Run `composer run` to run the server within the container
+3. Open [127.0.0.1:8080](http://127.0.0.1)
+4. Run `composer stop` to stop the server
+
+## Other Commands
+### Propel
+* `composer build-schema` to generate a schema from a database (requires propel.json configuration)
+* `composer build-models` to build propel models from schema
+* `composer generate-config` to generate `conf/config.php` from `conf/propel.json`
+
+### Testing
+* `composer test` to run all tests
+
+### Docker
+* `composer remove-containers` to remove all related docker containers
+
+
+## Stack
+* [Slim 3](http://www.slimframework.com/) for routing/middleware/services [(docs)](http://www.slimframework.com/docs/)
+* [Propel](http://propelorm.org/) ORM [(docs)](http://propelorm.org/documentation/)
+* [Redis](http://redis.io/) for caching
+* [PHPUnit](https://phpunit.de/) for testing
