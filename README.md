@@ -8,7 +8,7 @@ API para os aplicativos de MOC (Marcação Online de Cirurgias)
 
 ## Installing
 1. Clone this repo
-2. Install composer [composer](https://getcomposer.org/download/)
+2. Install [composer](https://getcomposer.org/download/)
 3. Configure [conf/propel.json.default](conf/propel.json.default) with the db information and remove the .default
 extension
 4. Run `composer install`
