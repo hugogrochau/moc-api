@@ -15,6 +15,6 @@ class NotLoggedInMiddleware {
         if (isset($_SESSION['username'])) {
             return $res->withStatus(401)->write('Already logged in');
         }
-        return $response = $next($req, $res);
+        return $next($req, $res);
     }
 }

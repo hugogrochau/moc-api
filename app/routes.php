@@ -1,11 +1,9 @@
 <?php
 
 $app->get('/', function ($req, $res) {
-    return $res->withRedirect('/api');
     $this->log->info("moc '/' route");
+    return $res->withRedirect('/api');
 });
-
-
 
 $app->group("/api", function() {
     /* Automatically loads route files from the Routes subdirectory */
@@ -18,5 +16,5 @@ $app->group("/api", function() {
         'Content-Type',
         'application/json'
     );
-    return $next($req, $res);;
+    return $next($req, $res);
 });
