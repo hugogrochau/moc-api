@@ -25,13 +25,13 @@
   </table>
   <table name="user" schema="moc" idMethod="native" phpName="User">
 	<column name="person_id" phpName="PersonId" type="INTEGER" primaryKey="true" required="true"/>
-    <column name="email" phpName="Email" type="VARCHAR" size="256"/>
-    <column name="password" phpName="Password" type="VARCHAR" size="70"/>
+    <column name="email" phpName="Email" type="VARCHAR" size="256" required="true"/>
+    <column name="password" phpName="Password" type="VARCHAR" size="70" required="true"/>
     <column name="CPF" phpName="CPF" type="VARCHAR" size="12" required="true"/>
-	<column name="birth_date" phpName="BirthDate" type="DATE"/>
-    <column name="gender" phpName="Gender" type="ENUM" valueSet="male, female, other"/>
+	<column name="birth_date" phpName="BirthDate" type="DATE" required="true"/>
+    <column name="gender" phpName="Gender" type="ENUM" valueSet="male, female, other" required="true"/>
     <column name="app_id" phpName="AppId" type="VARCHAR" size="50"/>
-    <column name="type" phpName="Type" type="ENUM" valueSet="surgeon, secretary, medical_staff"/>
+    <column name="type" phpName="Type" type="ENUM" valueSet="surgeon, secretary, medical_staff" required="true"/>
 	<foreign-key foreignTable="person" name="user_person_id_fkey">
       <reference local="person_id" foreign="id"/>
     </foreign-key>
@@ -129,7 +129,7 @@
     <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
     <column name="name" phpName="Name" type="VARCHAR" size="100" required="true"/>
     <column name="type" phpName="Type" type="ENUM" valueSet="checkbox, date, number, date" required="true"/>
-    <column name="surgery_field_category_id" phpName="SurgeryFieldCategoryId" type="INTEGER" required="true"/>   
+    <column name="surgery_field_category_id" phpName="SurgeryFieldCategoryId" type="INTEGER" required="true"/>
     <column name="created" phpName="Created" type="TIMESTAMP" defaultExpr="CURRENT_TIMESTAMP"/>
     <foreign-key foreignTable="surgery_field_category" name="surgery_field_category_id_fkey">
       <reference local="surgery_field_category_id" foreign="id"/>
@@ -145,8 +145,8 @@
     </foreign-key>
   </table>
   <table name="surgery_field_value" schema="moc" idMethod="native" phpName="SurgeryFieldValue">
-    <column name="surgery_field_id" phpName="SurgeryFieldId" type="INTEGER" required="true"/>   
-    <column name="surgery_id" phpName="SurgeryId" type="INTEGER" required="true"/>
+    <column name="surgery_field_id" phpName="SurgeryFieldId" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="surgery_id" phpName="SurgeryId" type="INTEGER" primaryKey="true" required="true"/>
     <column name="value" phpName="Value" type="VARCHAR" size="500" required="true"/>
     <foreign-key foreignTable="surgery_field" name="surgery_field_value_surgery_field_id_fkey">
       <reference local="surgery_field_id" foreign="id"/>
@@ -188,8 +188,8 @@
     <column name="created" phpName="Created" type="TIMESTAMP" defaultExpr="CURRENT_TIMESTAMP"/>
   </table>
   <table name="health_insurance_card" schema="moc" idMethod="native" phpName="HealthInsuranceCard">
-    <column name="patient_id" phpName="PatientId" type="INTEGER" required="true"/>
-    <column name="health_insurance_id" phpName="HealthInsuranceId" type="INTEGER" required="true"/>
+    <column name="patient_id" phpName="PatientId" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="health_insurance_id" phpName="HealthInsuranceId" type="INTEGER" primaryKey="true" required="true"/>
     <column name="number" phpName="Number" type="VARCHAR" size="64" required="true"/>
     <column name="expiration" phpName="Expiration" type="DATE" required="true"/>
     <foreign-key foreignTable="patient" name="health_insurance_card_patient_id_fkey">
@@ -200,12 +200,12 @@
     </foreign-key>
   </table>
   <table name="health_insurance" schema="moc" idMethod="native" phpName="HealthInsurance">
-    <column name="id" phpName="Id" type="INTEGER" required="true" autoIncrement="true"/>
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" required="true" autoIncrement="true"/>
     <column name="name" phpName="Name" type="VARCHAR" size="100" required="true"/>
     <column name="created" phpName="Created" type="TIMESTAMP" defaultExpr="CURRENT_TIMESTAMP"/>
   </table>
   <table name="legal_guardian" schema="moc" idMethod="native" phpName="LegalGuardian">
-    <column name="person_id" phpName="PersonId" type="INTEGER" required="true"/>
+    <column name="person_id" phpName="PersonId" type="INTEGER" primaryKey="true" required="true"/>
     <column name="relationship" phpName="Relationship" type="VARCHAR" size="100" required="true"/>
     <column name="CPF" phpName="CPF" type="VARCHAR" size="12" required="true"/>
     <column name="patient_id" phpName="PatientId" type="INTEGER" required="true"/>
@@ -217,8 +217,8 @@
     </foreign-key>
   </table>
   <table name="material_supplier" schema="moc" idMethod="native" phpName="MaterialSupplier">
-    <column name="material_id" phpName="MaterialId" type="INTEGER" required="true"/>
-    <column name="supplier_id" phpName="SupplierId" type="Integer" required="true"/>
+    <column name="material_id" phpName="MaterialId" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="supplier_id" phpName="SupplierId" type="Integer" primaryKey="true" required="true"/>
     <foreign-key foreignTable="material" name="material_supplier_material_id_fkey">
       <reference local="material_id" foreign="id"/>
     </foreign-key>
@@ -227,12 +227,12 @@
     </foreign-key>
   </table>
   <table name="supplier" schema="moc" idMethod="native" phpName="Supplier">
-    <column name="id" phpName="Id" type="INTEGER" autoIncrement="true" required="true"/>
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
     <column name="name" phpName="Name" type="VARCHAR" size="100" required="true"/>
     <column name="created" phpName="Created" type="TIMESTAMP" defaultExpr="CURRENT_TIMESTAMP"/>
   </table>
   <table name="medical_staff" schema="moc" idMethod="native" phpName="MedicalStaff">
-    <column name="user_id" phpName="UserId" type="INTEGER" required="true"/>
+    <column name="user_id" phpName="UserId" type="INTEGER"  primaryKey="true" required="true"/>
     <column name="occupation" phpName="Occupation" type="VARCHAR" size="100" required="true"/>
     <column name="specialty" phpName="Specialty" type="VARCHAR" size="100" required="true"/>
     <foreign-key foreignTable="user" name="medical_staff_user_id_fkey">
