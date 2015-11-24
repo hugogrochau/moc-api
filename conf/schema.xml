@@ -1,242 +1,251 @@
 <?xml version="1.0" encoding="utf-8"?>
 <database name="default" defaultIdMethod="native" defaultPhpNamingMethod="underscore" namespace="MocApi\Models">
-  <table name="address" schema="moc" idMethod="native" phpName="Address">
-    <column name="id" phpName="Id" type="BIGINT" primaryKey="true" autoIncrement="true" required="true"/>
-    <column name="city" phpName="City" type="VARCHAR" size="100" required="true"/>
-    <column name="complement" phpName="Complement" type="VARCHAR" size="50"/>
-    <column name="neighborhood" phpName="Neighborhood" type="VARCHAR" size="100" required="true"/>
-    <column name="number" phpName="Number" type="INTEGER" required="true"/>
-    <column name="state" phpName="State" type="VARCHAR" size="50" required="true"/>
-    <column name="street" phpName="Street" type="VARCHAR" size="100" required="true"/>
-    <column name="CEP" phpName="CEP" type="VARCHAR" size="9" required="true"/>
-    <column name="type" phpName="Type" type="ENUM" valueSet="home, work" defaultValue="home" defaultExpr="home"/>
-	<column name="person_id" phpName="PersonId" type="INTEGER" required="true"/>
-    <column name="created" phpName="Created" type="TIMESTAMP" defaultExpr="CURRENT_TIMESTAMP"/>
-	<foreign-key foreignTable="person" name="address_person_id_fkey">
-      <reference local="person_id" foreign="id"/>
-    </foreign-key>
-  </table>
-  <table name="equipment" schema="moc" idMethod="native" phpName="Equipment">
-    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
-    <column name="name" phpName="Name" type="VARCHAR" size="50" required="true"/>
-    <column name="description" phpName="Description" type="VARCHAR" size="500"/>
-    <column name="quantity" phpName="Quantity" type="INTEGER" defaultValue="1" defaultExpr="1" required="true"/>
-    <column name="created" phpName="Created" type="TIMESTAMP" defaultExpr="CURRENT_TIMESTAMP" />
-  </table>
-  <table name="user" schema="moc" idMethod="native" phpName="User">
-	<column name="person_id" phpName="PersonId" type="INTEGER" primaryKey="true" required="true"/>
-    <column name="email" phpName="Email" type="VARCHAR" size="256" required="true"/>
-    <column name="password" phpName="Password" type="VARCHAR" size="70" required="true"/>
-    <column name="CPF" phpName="CPF" type="VARCHAR" size="12" required="true"/>
-	<column name="birth_date" phpName="BirthDate" type="DATE" required="true"/>
-    <column name="gender" phpName="Gender" type="ENUM" valueSet="male, female, other" required="true"/>
-    <column name="app_id" phpName="AppId" type="VARCHAR" size="50"/>
-    <column name="type" phpName="Type" type="ENUM" valueSet="surgeon, secretary, medical_staff" required="true"/>
-	<foreign-key foreignTable="person" name="user_person_id_fkey">
-      <reference local="person_id" foreign="id"/>
-    </foreign-key>
-  </table>
-  <table name="person" schema="moc" idMethod="native" phpName="Person">
-	<column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
-    <column name="name" phpName="Name" type="VARCHAR" size="100"/>
-    <column name="created" phpName="Created" type="TIMESTAMP" defaultExpr="CURRENT_TIMESTAMP" />
-  </table>
-  <table name="patient" schema="moc" idMethod="native" phpName="Patient">
-	<column name="person_id" phpName="PersonId" type="INTEGER" primaryKey="true" required="true"/>
-    <column name="cpf" phpName="CPF" type="VARCHAR" size="12"/>
-    <column name="birth_date" phpName="BirthDate" type="DATE" required="true"/>
-    <column name="gender" phpName="Gender" type="ENUM" valueSet="male, female, other" required="true"/>
-    <column name="weight" phpName="Weight" type="DOUBLE" />
-    <column name="notes" phpName="Notes" type="VARCHAR" size="500"/>
-	<foreign-key foreignTable="person" name="patient_person_id_fkey">
-      <reference local="person_id" foreign="id"/>
-    </foreign-key>
-  </table>
-  <table name="phone_number" schema="moc" idMethod="native" phpName="PhoneNumber">
-	<column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
-    <column name="type" phpName="Type" type="ENUM" valueSet="mobile, home, work" required="true"/>
-	<column name="number" phpName="Number" type="VARCHAR" size="15" required="true"/>
-	<column name="person_id" phpName="PersonId" type="INTEGER" required="true"/>
-    <foreign-key foreignTable="person" name="phone_number_person_id_fkey">
-      <reference local="person_id" foreign="id"/>
-    </foreign-key>
-  </table>
-  <table name="material" schema="moc" idMethod="native" phpName="Material">
-    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
-    <column name="name" phpName="Name" type="VARCHAR" size="100" required="true"/>
-    <column name="description" phpName="Description" type="VARCHAR" size="500"/>
-    <column name="quantity" phpName="Quantity" type="INTEGER" defaultValue="1" defaultExpr="1"/>
-	<column name="created" phpName="Created" type="TIMESTAMP" defaultExpr="CURRENT_TIMESTAMP"/>
-  </table>
-  <table name="surgeon" schema="moc" idMethod="native" phpName="Surgeon">
-	<column name="person_id" phpName="PersonId" type="INTEGER" primaryKey="true" required="true"/>
-    <column name="specialty" phpName="Specialty" type="VARCHAR" size="100" required="true"/>
-    <column name="CRM" phpName="CRM" type="VARCHAR" size="12" required="true"/>
-    <column name="CFMUF" phpName="CRMUF" type="VARCHAR" size="3" required="true"/>
-	<column name="created" phpName="Created" type="TIMESTAMP" defaultExpr="CURRENT_TIMESTAMP"/>
-	<foreign-key foreignTable="user" name="surgeon_person_id_fkey">
-      <reference local="person_id" foreign="person_id"/>
-    </foreign-key>
-  </table>
-  <table name="surgeon_secretary" schema="moc" idMethod="native" isCrossRef="true" phpName="SurgeonSecretary">
-	<column name="secretary_id" phpName="SecretaryId" type="INTEGER" primaryKey="true" required="true"/>
-    <column name="surgeon_id" phpName="SurgeonId" type="INTEGER" primaryKey="true" required="true"/>
-	<foreign-key foreignTable="user" name="surgeon_secretary_secretary_id_fkey">
-      <reference local="secretary_id" foreign="person_id"/>
-    </foreign-key>
-    <foreign-key foreignTable="surgeon" name="surgeon_secretary_surgeon_id_fkey">
-      <reference local="surgeon_id" foreign="person_id"/>
-    </foreign-key>
-  </table>
-  <table name="surgeon_surgery" schema="moc" idMethod="native" isCrossRef="true" phpName="SurgeonSurgery">
-    <column name="surgeon_id" phpName="SurgeonId" type="INTEGER" primaryKey="true" required="true"/>
-    <column name="surgery_id" phpName="SurgeryId" type="INTEGER" primaryKey="true" required="true"/>
-    <foreign-key foreignTable="surgeon" name="surgeon_surgery_surgeon_id_fkey">
-      <reference local="surgeon_id" foreign="person_id"/>
-    </foreign-key>
-    <foreign-key foreignTable="surgery" name="surgeon_surgery_surgery_id_fkey">
-      <reference local="surgery_id" foreign="id"/>
-    </foreign-key>
-  </table>
-  <table name="surgery" schema="moc" idMethod="native" phpName="Surgery">
-    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
-    <column name="status" phpName="Status" type="VARCHAR" size="100" required="true"/>
-    <column name="patient_id" phpName="PatientId" type="INTEGER" required="true"/>
-    <column name="creator_id" phpName="CreatorId" type="INTEGER" required="true"/>
-    <column name="surgery_type_id" phpName="SurgeryTypeId" type="INTEGER" required="true"/>
-    <column name="created" phpName="Created" type="TIMESTAMP" defaultExpr="CURRENT_TIMESTAMP"/>
-    <foreign-key foreignTable="patient" name="surgery_patient_id_fkey">
-      <reference local="patient_id" foreign="person_id"/>
-    </foreign-key>
-    <foreign-key foreignTable="user" name="surgery_creator_id_fkey" phpName="Creator">
-      <reference local="creator_id" foreign="person_id"/>
-    </foreign-key>
-    <foreign-key foreignTable="surgery_type" name="surgery_surgery_type_id_fkey">
-      <reference local="surgery_type_id" foreign="id"/>
-    </foreign-key>
-  </table>
-  <table name="surgery_equipment" schema="moc" idMethod="native" isCrossRef="true" phpName="SurgeryEquipment">
-    <column name="surgery_id" phpName="SurgeryId" type="INTEGER" primaryKey="true" required="true"/>
-    <column name="equipment_id" phpName="EquipmentId" type="INTEGER" primaryKey="true" required="true"/>
-    <foreign-key foreignTable="surgery" name="surgery_equipment_surgery_id_fkey">
-      <reference local="surgery_id" foreign="id"/>
-    </foreign-key>
-    <foreign-key foreignTable="equipment" name="surgery_equipment_equipment_id_fkey">
-      <reference local="equipment_id" foreign="id"/>
-    </foreign-key>
-  </table>
-  <table name="surgery_field" schema="moc" idMethod="native" phpName="SurgeryField">
-    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
-    <column name="name" phpName="Name" type="VARCHAR" size="100" required="true"/>
-    <column name="type" phpName="Type" type="ENUM" valueSet="checkbox, date, number, date" required="true"/>
-    <column name="surgery_field_category_id" phpName="SurgeryFieldCategoryId" type="INTEGER" required="true"/>
-    <column name="created" phpName="Created" type="TIMESTAMP" defaultExpr="CURRENT_TIMESTAMP"/>
-    <foreign-key foreignTable="surgery_field_category" name="surgery_field_category_id_fkey">
-      <reference local="surgery_field_category_id" foreign="id"/>
-    </foreign-key>
-  </table>
-  <table name="surgery_field_category" schema="moc" idMethod="native" phpName="SurgeryFieldCategory">
-    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
-    <column name="name" phpName="Name" type="VARCHAR" size="100" required="true"/>
-    <column name="surgery_type_id" phpName="SurgeryTypeId" type="INTEGER" required="true"/>
-    <column name="created" phpName="Created" type="TIMESTAMP" defaultExpr="CURRENT_TIMESTAMP"/>
-    <foreign-key foreignTable="surgery_type" name="surgery_field_category_surgery_type_id_fkey">
-      <reference local="surgery_type_id" foreign="id"/>
-    </foreign-key>
-  </table>
-  <table name="surgery_field_value" schema="moc" idMethod="native" phpName="SurgeryFieldValue">
-    <column name="surgery_field_id" phpName="SurgeryFieldId" type="INTEGER" primaryKey="true" required="true"/>
-    <column name="surgery_id" phpName="SurgeryId" type="INTEGER" primaryKey="true" required="true"/>
-    <column name="value" phpName="Value" type="VARCHAR" size="500" required="true"/>
-    <foreign-key foreignTable="surgery_field" name="surgery_field_value_surgery_field_id_fkey">
-      <reference local="surgery_field_id" foreign="id"/>
-    </foreign-key>
-    <foreign-key foreignTable="surgery" name="surgery_field_value_surgery_id_fkey">
-      <reference local="surgery_id" foreign="id"/>
-    </foreign-key>
-  </table>
-  <table name="surgery_materials" schema="moc" idMethod="native" phpName="SurgeryMaterials" isCrossRef="true">
-    <column name="surgery_id" phpName="SurgeryId" type="INTEGER" primaryKey="true" required="true"/>
-    <column name="material_id" phpName="MaterialId" type="INTEGER" primaryKey="true" required="true"/>
-    <foreign-key foreignTable="material" name="surgery_material_material_id_fkey">
-      <reference local="material_id" foreign="id"/>
-    </foreign-key>
-    <foreign-key foreignTable="surgery" name="surgery_material_surgery_id_fkey">
-      <reference local="surgery_id" foreign="id"/>
-    </foreign-key>
-  </table>
-  <table name="surgery_TUSS" schema="moc" idMethod="native" phpName="SurgeryTUSS">
-    <column name="surgery_id" phpName="SurgeryId" type="INTEGER" primaryKey="true" required="true"/>
-    <column name="TUSS_id" phpName="TUSSId" type="INTEGER" primaryKey="true" required="true"/>
-    <foreign-key foreignTable="surgery" name="surgery_TUSS_surgery_id_fkey">
-      <reference local="surgery_id" foreign="id"/>
-    </foreign-key>
-    <foreign-key foreignTable="TUSS" name="surgery_TUSS_TUSS_id_fkey">
-      <reference local="TUSS_id" foreign="id"/>
-    </foreign-key>
-  </table>
-  <table name="surgery_type" schema="moc" idMethod="native" phpName="SurgeryType">
-    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
-    <column name="title" phpName="Title" type="VARCHAR" size="100" required="true"/>
-    <column name="description" phpName="Description" type="VARCHAR" size="500"/>
-    <column name="created" phpName="Created" type="TIMESTAMP" defaultExpr="CURRENT_TIMESTAMP"/>
-  </table>
-  <table name="TUSS" schema="moc" idMethod="native" phpName="TUSS">
-    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
-    <column name="code" phpName="Codigo" type="INTEGER" required="true"/>
-    <column name="descricao" phpName="Descricao" type="VARCHAR" size="150"/>
-    <column name="created" phpName="Created" type="TIMESTAMP" defaultExpr="CURRENT_TIMESTAMP"/>
-  </table>
-  <table name="health_insurance_card" schema="moc" idMethod="native" phpName="HealthInsuranceCard">
-    <column name="patient_id" phpName="PatientId" type="INTEGER" primaryKey="true" required="true"/>
-    <column name="health_insurance_id" phpName="HealthInsuranceId" type="INTEGER" primaryKey="true" required="true"/>
-    <column name="number" phpName="Number" type="VARCHAR" size="64" required="true"/>
-    <column name="expiration" phpName="Expiration" type="DATE" required="true"/>
-    <foreign-key foreignTable="patient" name="health_insurance_card_patient_id_fkey">
-      <reference local="patient_id" foreign="person_id"/>
-    </foreign-key>
-    <foreign-key foreignTable="health_insurance" name="health_insurance_card_health_insurance_id_fkey">
-      <reference local="health_insurance_id" foreign="id"/>
-    </foreign-key>
-  </table>
-  <table name="health_insurance" schema="moc" idMethod="native" phpName="HealthInsurance">
-    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" required="true" autoIncrement="true"/>
-    <column name="name" phpName="Name" type="VARCHAR" size="100" required="true"/>
-    <column name="created" phpName="Created" type="TIMESTAMP" defaultExpr="CURRENT_TIMESTAMP"/>
-  </table>
-  <table name="legal_guardian" schema="moc" idMethod="native" phpName="LegalGuardian">
-    <column name="person_id" phpName="PersonId" type="INTEGER" primaryKey="true" required="true"/>
-    <column name="relationship" phpName="Relationship" type="VARCHAR" size="100" required="true"/>
-    <column name="CPF" phpName="CPF" type="VARCHAR" size="12" required="true"/>
-    <column name="patient_id" phpName="PatientId" type="INTEGER" required="true"/>
-    <foreign-key foreignTable="person" name="legal_guardian_person_id_fkey">
-      <reference local="person_id" foreign="id"/>
-    </foreign-key>
-    <foreign-key foreignTable="patient" name="legal_guardian_patient_id_fkey">
-      <reference local="patient_id" foreign="person_id"/>
-    </foreign-key>
-  </table>
-  <table name="material_supplier" schema="moc" idMethod="native" phpName="MaterialSupplier">
-    <column name="material_id" phpName="MaterialId" type="INTEGER" primaryKey="true" required="true"/>
-    <column name="supplier_id" phpName="SupplierId" type="Integer" primaryKey="true" required="true"/>
-    <foreign-key foreignTable="material" name="material_supplier_material_id_fkey">
-      <reference local="material_id" foreign="id"/>
-    </foreign-key>
-    <foreign-key foreignTable="supplier" name="material_supplier_supplier_id_fkey">
-      <reference local="supplier_id" foreign="id"/>
-    </foreign-key>
-  </table>
-  <table name="supplier" schema="moc" idMethod="native" phpName="Supplier">
-    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
-    <column name="name" phpName="Name" type="VARCHAR" size="100" required="true"/>
-    <column name="created" phpName="Created" type="TIMESTAMP" defaultExpr="CURRENT_TIMESTAMP"/>
-  </table>
-  <table name="medical_staff" schema="moc" idMethod="native" phpName="MedicalStaff">
-    <column name="user_id" phpName="UserId" type="INTEGER"  primaryKey="true" required="true"/>
-    <column name="occupation" phpName="Occupation" type="VARCHAR" size="100" required="true"/>
-    <column name="specialty" phpName="Specialty" type="VARCHAR" size="100" required="true"/>
-    <foreign-key foreignTable="user" name="medical_staff_user_id_fkey">
-      <reference local="user_id" foreign="person_id"/>
-    </foreign-key>
-  </table>
+    <table name="address" schema="moc" idMethod="native" phpName="Address">
+        <column name="id" phpName="Id" type="BIGINT" primaryKey="true" autoIncrement="true" required="true"/>
+        <column name="city" phpName="City" type="VARCHAR" size="100" required="true"/>
+        <column name="complement" phpName="Complement" type="VARCHAR" size="50"/>
+        <column name="neighborhood" phpName="Neighborhood" type="VARCHAR" size="100" required="true"/>
+        <column name="number" phpName="Number" type="INTEGER" required="true"/>
+        <column name="state" phpName="State" type="VARCHAR" size="50" required="true"/>
+        <column name="street" phpName="Street" type="VARCHAR" size="100" required="true"/>
+        <column name="CEP" phpName="CEP" type="VARCHAR" size="9" required="true"/>
+        <column name="type" phpName="Type" type="ENUM" valueSet="home, work" defaultValue="home" defaultExpr="home"/>
+        <column name="surgeon_id" phpName="SurgeonId" type="INTEGER" required="true"/>
+        <column name="created" phpName="Created" type="TIMESTAMP" defaultExpr="CURRENT_TIMESTAMP"/>
+        <foreign-key foreignTable="surgeon" name="address_surgeon_id_fkey">
+            <reference local="surgeon_id" foreign="user_id"/>
+        </foreign-key>
+    </table>
+    <table name="equipment" schema="moc" idMethod="native" phpName="Equipment">
+        <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+        <column name="name" phpName="Name" type="VARCHAR" size="50" required="true"/>
+        <column name="description" phpName="Description" type="VARCHAR" size="500"/>
+        <column name="quantity" phpName="Quantity" type="INTEGER" defaultValue="1" defaultExpr="1" required="true"/>
+        <column name="created" phpName="Created" type="TIMESTAMP" defaultExpr="CURRENT_TIMESTAMP"/>
+    </table>
+    <table name="user" schema="moc" idMethod="native" phpName="User">
+        <column name="person_id" phpName="PersonId" type="INTEGER" primaryKey="true" required="true"/>
+        <column name="email" phpName="Email" type="VARCHAR" size="256" required="true"/>
+        <column name="password" phpName="Password" type="VARCHAR" size="70" required="true"/>
+        <column name="app_id" phpName="AppId" type="VARCHAR" size="50"/>
+        <column name="type" phpName="Type" type="ENUM" valueSet="surgeon, secretary, medical_staff" required="true"/>
+        <foreign-key foreignTable="person" name="user_person_id_fkey">
+            <reference local="person_id" foreign="id"/>
+        </foreign-key>
+    </table>
+    <table name="person" schema="moc" idMethod="native" phpName="Person">
+        <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+        <column name="name" phpName="Name" type="VARCHAR" size="100"/>
+        <column name="CPF" phpName="CPF" type="VARCHAR" size="12" required="true"/>
+        <column name="birth_date" phpName="BirthDate" type="DATE" required="true"/>
+        <column name="gender" phpName="Gender" type="ENUM" valueSet="male, female, other" required="true"/>
+        <column name="created" phpName="Created" type="TIMESTAMP" defaultExpr="CURRENT_TIMESTAMP"/>
+    </table>
+    <table name="patient" schema="moc" idMethod="native" phpName="Patient">
+        <column name="person_id" phpName="PersonId" type="INTEGER" primaryKey="true" required="true"/>
+        <column name="weight" phpName="Weight" type="DOUBLE"/>
+        <column name="height" phpName="Height" type="DOUBLE"/>
+        <column name="blood_type" phpName="BloodType" type="VARCHAR" size="3"/>
+        <column name="notes" phpName="Notes" type="VARCHAR" size="500"/>
+        <column name="surgery_id" phpName="SurgeryId" type="INTEGER" required="true"/>
+        <foreign-key foreignTable="person" name="patient_person_id_fkey">
+            <reference local="person_id" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="surgery" name="patient_surgery_id_fkey">
+            <reference local="surgery_id" foreign="id"/>
+        </foreign-key>
+    </table>
+    <table name="phone_number" schema="moc" idMethod="native" phpName="PhoneNumber">
+        <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+        <column name="type" phpName="Type" type="ENUM" valueSet="mobile, home, work" required="true"/>
+        <column name="number" phpName="Number" type="VARCHAR" size="15" required="true"/>
+        <column name="person_id" phpName="PersonId" type="INTEGER" required="true"/>
+        <foreign-key foreignTable="person" name="phone_number_person_id_fkey">
+            <reference local="person_id" foreign="id"/>
+        </foreign-key>
+    </table>
+    <table name="material" schema="moc" idMethod="native" phpName="Material">
+        <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+        <column name="name" phpName="Name" type="VARCHAR" size="100" required="true"/>
+        <column name="description" phpName="Description" type="VARCHAR" size="500"/>
+        <column name="quantity" phpName="Quantity" type="INTEGER" defaultValue="1" defaultExpr="1"/>
+        <column name="created" phpName="Created" type="TIMESTAMP" defaultExpr="CURRENT_TIMESTAMP"/>
+    </table>
+    <table name="surgeon" schema="moc" idMethod="native" phpName="Surgeon">
+        <column name="user_id" phpName="UserId" type="INTEGER" primaryKey="true" required="true"/>
+        <column name="specialty" phpName="Specialty" type="VARCHAR" size="100" required="true"/>
+        <column name="CRM" phpName="CRM" type="VARCHAR" size="12" required="true"/>
+        <column name="CRMUF" phpName="CRMUF" type="VARCHAR" size="3" required="true"/>
+        <foreign-key foreignTable="user" name="surgeon_user_id_fkey">
+            <reference local="user_id" foreign="person_id"/>
+        </foreign-key>
+    </table>
+    <table name="surgeon_secretary" schema="moc" idMethod="native" phpName="SurgeonSecretary" isCrossRef="true">
+        <column name="secretary_id" phpName="SecretaryId" type="INTEGER" primaryKey="true" required="true"/>
+        <column name="surgeon_id" phpName="SurgeonId" type="INTEGER" primaryKey="true" required="true"/>
+        <foreign-key foreignTable="user" name="surgeon_secretary_secretary_id_fkey">
+            <reference local="secretary_id" foreign="person_id"/>
+        </foreign-key>
+        <foreign-key foreignTable="surgeon" name="surgeon_secretary_surgeon_id_fkey">
+            <reference local="surgeon_id" foreign="user_id"/>
+        </foreign-key>
+    </table>
+    <table name="surgeon_surgery" schema="moc" idMethod="native" phpName="SurgeonSurgery" isCrossRef="true">
+        <column name="surgeon_id" phpName="SurgeonId" type="INTEGER" primaryKey="true" required="true"/>
+        <column name="surgery_id" phpName="SurgeryId" type="INTEGER" primaryKey="true" required="true"/>
+        <foreign-key foreignTable="surgeon" name="surgeon_surgery_surgeon_id_fkey">
+            <reference local="surgeon_id" foreign="user_id"/>
+        </foreign-key>
+        <foreign-key foreignTable="surgery" name="surgeon_surgery_surgery_id_fkey">
+            <reference local="surgery_id" foreign="id"/>
+        </foreign-key>
+    </table>
+    <table name="surgery" schema="moc" idMethod="native" phpName="Surgery">
+        <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+        <column name="status" phpName="Status" type="VARCHAR" size="100" required="true"/>
+        <column name="creator_id" phpName="CreatorId" type="INTEGER" required="true"/>
+        <column name="surgery_type_id" phpName="SurgeryTypeId" type="INTEGER" required="true"/>
+        <column name="created" phpName="Created" type="TIMESTAMP" defaultExpr="CURRENT_TIMESTAMP"/>
+        <foreign-key foreignTable="person" name="surgery_creator_id_fkey" phpName="Creator">
+            <reference local="creator_id" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="surgery_type" name="surgery_surgery_type_id_fkey">
+            <reference local="surgery_type_id" foreign="id"/>
+        </foreign-key>
+    </table>
+    <table name="surgery_equipment" schema="moc" idMethod="native" phpName="SurgeryEquipment" isCrossRef="true" >
+        <column name="surgery_id" phpName="SurgeryId" type="INTEGER" primaryKey="true" required="true"/>
+        <column name="equipment_id" phpName="EquipmentId" type="INTEGER" primaryKey="true" required="true"/>
+        <foreign-key foreignTable="surgery" name="surgery_equipment_surgery_id_fkey">
+            <reference local="surgery_id" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="equipment" name="surgery_equipment_equipment_id_fkey">
+            <reference local="equipment_id" foreign="id"/>
+        </foreign-key>
+    </table>
+    <table name="surgery_field" schema="moc" idMethod="native" phpName="SurgeryField">
+        <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+        <column name="name" phpName="Name" type="VARCHAR" size="100" required="true"/>
+        <column name="type" phpName="Type" type="ENUM" valueSet="checkbox, date, number, date" required="true"/>
+        <column name="surgery_field_category_id" phpName="SurgeryFieldCategoryId" type="INTEGER" required="true"/>
+        <column name="created" phpName="Created" type="TIMESTAMP" defaultExpr="CURRENT_TIMESTAMP"/>
+        <foreign-key foreignTable="surgery_field_category" name="surgery_field_category_id_fkey">
+            <reference local="surgery_field_category_id" foreign="id"/>
+        </foreign-key>
+    </table>
+    <table name="surgery_field_category" schema="moc" idMethod="native" phpName="SurgeryFieldCategory">
+        <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+        <column name="name" phpName="Name" type="VARCHAR" size="100" required="true"/>
+        <column name="surgery_type_id" phpName="SurgeryTypeId" type="INTEGER" required="true"/>
+        <column name="created" phpName="Created" type="TIMESTAMP" defaultExpr="CURRENT_TIMESTAMP"/>
+        <foreign-key foreignTable="surgery_type" name="surgery_field_category_surgery_type_id_fkey">
+            <reference local="surgery_type_id" foreign="id"/>
+        </foreign-key>
+    </table>
+    <table name="surgery_field_value" schema="moc" idMethod="native" phpName="SurgeryFieldValue">
+        <column name="surgery_field_id" phpName="SurgeryFieldId" type="INTEGER" primaryKey="true" required="true"/>
+        <column name="surgery_id" phpName="SurgeryId" type="INTEGER" primaryKey="true" required="true"/>
+        <column name="value" phpName="Value" type="VARCHAR" size="500" required="true"/>
+        <foreign-key foreignTable="surgery_field" name="surgery_field_value_surgery_field_id_fkey">
+            <reference local="surgery_field_id" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="surgery" name="surgery_field_value_surgery_id_fkey">
+            <reference local="surgery_id" foreign="id"/>
+        </foreign-key>
+    </table>
+    <table name="surgery_material" schema="moc" idMethod="native" phpName="SurgeryMaterial" isCrossRef="true">
+        <column name="surgery_id" phpName="SurgeryId" type="INTEGER" primaryKey="true" required="true"/>
+        <column name="material_id" phpName="MaterialId" type="INTEGER" primaryKey="true" required="true"/>
+        <foreign-key foreignTable="material" name="surgery_material_material_id_fkey">
+            <reference local="material_id" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="surgery" name="surgery_material_surgery_id_fkey">
+            <reference local="surgery_id" foreign="id"/>
+        </foreign-key>
+    </table>
+    <table name="surgery_TUSS" schema="moc" idMethod="native" phpName="SurgeryTUSS" isCrossRef="true">
+        <column name="surgery_id" phpName="SurgeryId" type="INTEGER" primaryKey="true" required="true"/>
+        <column name="TUSS_id" phpName="TUSSId" type="INTEGER" primaryKey="true" required="true"/>
+        <foreign-key foreignTable="surgery" name="surgery_TUSS_surgery_id_fkey">
+            <reference local="surgery_id" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="TUSS" name="surgery_TUSS_TUSS_id_fkey">
+            <reference local="TUSS_id" foreign="id"/>
+        </foreign-key>
+    </table>
+    <table name="surgery_type" schema="moc" idMethod="native" phpName="SurgeryType">
+        <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+        <column name="title" phpName="Title" type="VARCHAR" size="100" required="true"/>
+        <column name="description" phpName="Description" type="VARCHAR" size="500"/>
+        <column name="created" phpName="Created" type="TIMESTAMP" defaultExpr="CURRENT_TIMESTAMP"/>
+    </table>
+    <table name="TUSS" schema="moc" idMethod="native" phpName="TUSS">
+        <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+        <column name="code" phpName="Code" type="INTEGER" required="true"/>
+        <column name="description" phpName="Description" type="VARCHAR" size="150"/>
+        <column name="created" phpName="Created" type="TIMESTAMP" defaultExpr="CURRENT_TIMESTAMP"/>
+    </table>
+    <table name="health_insurance_card" schema="moc" idMethod="native" phpName="HealthInsuranceCard">
+        <column name="patient_id" phpName="PatientId" type="INTEGER" primaryKey="true" required="true"/>
+        <column name="health_insurance_id" phpName="HealthInsuranceId" type="INTEGER" primaryKey="true"
+                required="true"/>
+        <column name="number" phpName="Number" type="VARCHAR" size="64" required="true"/>
+        <column name="expiration" phpName="Expiration" type="DATE" required="true"/>
+        <foreign-key foreignTable="patient" name="health_insurance_card_patient_id_fkey">
+            <reference local="patient_id" foreign="person_id"/>
+        </foreign-key>
+        <foreign-key foreignTable="health_insurance" name="health_insurance_card_health_insurance_id_fkey">
+            <reference local="health_insurance_id" foreign="id"/>
+        </foreign-key>
+    </table>
+    <table name="health_insurance" schema="moc" idMethod="native" phpName="HealthInsurance">
+        <column name="id" phpName="Id" type="INTEGER" primaryKey="true" required="true" autoIncrement="true"/>
+        <column name="name" phpName="Name" type="VARCHAR" size="100" required="true"/>
+        <column name="created" phpName="Created" type="TIMESTAMP" defaultExpr="CURRENT_TIMESTAMP"/>
+    </table>
+    <table name="legal_guardian" schema="moc" idMethod="native" phpName="LegalGuardian">
+        <column name="person_id" phpName="PersonId" type="INTEGER" primaryKey="true" required="true"/>
+        <column name="relationship" phpName="Relationship" type="VARCHAR" size="100" required="true"/>
+        <column name="CPF" phpName="CPF" type="VARCHAR" size="12" required="true"/>
+        <column name="patient_id" phpName="PatientId" type="INTEGER" required="true"/>
+        <foreign-key foreignTable="person" name="legal_guardian_person_id_fkey">
+            <reference local="person_id" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="patient" name="legal_guardian_patient_id_fkey">
+            <reference local="patient_id" foreign="person_id"/>
+        </foreign-key>
+    </table>
+    <table name="material_supplier" schema="moc" idMethod="native" phpName="MaterialSupplier" isCrossRef="true">
+        <column name="material_id" phpName="MaterialId" type="INTEGER" primaryKey="true" required="true"/>
+        <column name="supplier_id" phpName="SupplierId" type="Integer" primaryKey="true" required="true"/>
+        <foreign-key foreignTable="material" name="material_supplier_material_id_fkey">
+            <reference local="material_id" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="supplier" name="material_supplier_supplier_id_fkey">
+            <reference local="supplier_id" foreign="id"/>
+        </foreign-key>
+    </table>
+    <table name="supplier" schema="moc" idMethod="native" phpName="Supplier">
+        <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+        <column name="name" phpName="Name" type="VARCHAR" size="100" required="true"/>
+        <column name="created" phpName="Created" type="TIMESTAMP" defaultExpr="CURRENT_TIMESTAMP"/>
+    </table>
+    <table name="medical_staff" schema="moc" idMethod="native" phpName="MedicalStaff">
+        <column name="user_id" phpName="UserId" type="INTEGER" primaryKey="true" required="true"/>
+        <column name="occupation" phpName="Occupation" type="VARCHAR" size="100" required="true"/>
+        <column name="specialty" phpName="Specialty" type="VARCHAR" size="100" required="true"/>
+        <foreign-key foreignTable="user" name="medical_staff_user_id_fkey">
+            <reference local="user_id" foreign="person_id"/>
+        </foreign-key>
+    </table>
+    <table name="medical_staff_surgery" schema="moc" idMethod="native" phpName="MedicalStaffSurgery" isCrossRef="true">
+        <column name="medical_staff_id" phpName="MedicalStaffId" type="INTEGER" primaryKey="true" required="true"/>
+        <column name="surgery_id" phpName="SurgeryId" type="INTEGER" primaryKey="true" required="true"/>
+        <foreign-key foreignTable="medical_staff" name="medical_staff_surgery_medical_staff_id_fkey">
+            <reference local="medical_staff_id" foreign="user_id"/>
+        </foreign-key>
+        <foreign-key foreignTable="surgery" name="medical_staff_surgery_surgery_id_fkey">
+            <reference local="surgery_id" foreign="id"/>
+        </foreign-key>
+    </table>
 </database>
