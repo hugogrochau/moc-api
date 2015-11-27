@@ -1,4 +1,6 @@
 <?php
+
+
 // DIC configuration
 
 $container = $app->getContainer();
@@ -33,4 +35,8 @@ $container['notFoundHandler'] = function ($c) {
     return (function ($req, $res) {
         return $res->withStatus(404)->write("Route not found");
     });
+};
+
+$container['MocApi\Middleware\RouteLogMiddleware'] = function ($c) {
+    return new MocApi\Middleware\RouteLogMiddleware($c->get('log'));
 };
